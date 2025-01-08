@@ -1,0 +1,116 @@
+/* Set html and body to full height */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+html, body {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box; /* Prevent padding/borders from affecting layout */
+    font-family: 'Poppins', sans-serif; /* Apply Poppins font globally */
+}
+
+/* Container for login screen layout */
+.login-container {
+    display: flex;
+    height: 100%; /* Full height of the viewport */
+    overflow: hidden; /* Prevent any overflow */
+}
+
+/* Left partition: Login form */
+.login-form {
+    flex: 1; /* Takes half the width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+    min-height: 100%; /* Ensure it takes at least the full height */
+    box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+    margin-top: 50px;
+}
+
+.login-form h2 {
+    font-weight: 600; /* Bold text */
+    font-size: 2rem; /* Adjust the font size */
+    color: #333; /* Color */
+    margin-bottom: 0px;
+}
+
+.login-subtext {
+    font-weight: 400; /* Normal weight */
+    font-size: 0.875rem; /* Smaller font size */
+    color: #555; /* Lighter color for subtext */
+}
+
+/* Input container with label and input field */
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container label {
+    position: absolute;
+    top: 1px;
+    left: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #1C1B1F;
+    background-color: #fff;
+    padding: 0 5px;
+    transition: 0.2s;
+}
+
+input {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #79747E;
+    margin-top: 5px;
+    width: 80%;
+    font-family: 'Poppins', sans-serif;
+}
+
+input:focus {
+    border-color: #6200ea; /* Purple border on focus */
+}
+
+
+
+/* Right partition: Image */
+.login-image {
+    flex: 1; /* Takes half the width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%; /* Ensure it takes at least the full height */
+}
+
+/* Image styling */
+.login-image img {
+    width: 100%; /* Make the image responsive */
+    max-width: 400px; /* Prevent it from becoming too large */
+    border-radius: 24px; /* Optional rounded corners */
+    margin-top: 60px;
+    margin-left: 20px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Add space between form elements */
+    flex-grow: 1; /* Allow form to grow to fill available space */
+    overflow: hidden; /* Prevent form from overflowing */
+}
+
+/* Button styling */
+button {
+    padding: 12px;
+    background-color: #6200ea; /* Purple color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #3700b3; /* Darker purple on hover */
+}
