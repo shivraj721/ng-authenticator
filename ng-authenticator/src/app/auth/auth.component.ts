@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -10,20 +11,20 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
   animations: [
-    trigger('slideAnimation', [
-      state('login', style({
-        transform: 'translateX(0)'
-      })),
-      state('signup', style({
-        transform: 'translateX(0)'
-      })),
-      transition('login => signup', [
-        animate('0.5s ease-out')
-      ]),
-      transition('signup => login', [
-        animate('0.5s ease-out')
-      ])
-    ]),
+    // trigger('slideAnimation', [
+    //   state('login', style({
+    //     transform: 'translateX(0)'
+    //   })),
+    //   state('signup', style({
+    //     transform: 'translateX(0)'
+    //   })),
+    //   transition('login => signup', [
+    //     animate('0.5s ease-out')
+    //   ]),
+    //   transition('signup => login', [
+    //     animate('0.5s ease-out')
+    //   ])
+    // ]),
     trigger('imageSlide', [
       state('login', style({
         right: '0',
@@ -40,6 +41,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class AuthComponent {
+  constructor(private router: Router) {}
   isLogin = true;
   currentImage = 'assets/images/login.jpg';
   signupImage = 'assets/images/signup.jpg';
@@ -49,5 +51,8 @@ export class AuthComponent {
     setTimeout(() => {
       this.currentImage = this.isLogin ? 'assets/images/login.jpg' : 'assets/images/signup.jpg';
     }, 250);
+  }
+  navigateToForgotPassword() {
+    this.router.navigate(['/forgotpassword']);
   }
 }

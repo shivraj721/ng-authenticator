@@ -12,6 +12,12 @@
         <div class="input-group">
           <label>Password</label>
           <input type="password" placeholder="Enter your password" />
+          <a href="javascript:void(0)" class="forgot-password" (click)="navigateToForgotPassword()">Forgot Password</a>
+         </div>
+    
+        <div class="remember-me">
+          <input type="checkbox" id="remember-me" />
+          <label for="remember-me">Remember me</label>
         </div>
     
         <button type="submit" class="primary-button">Login</button>
