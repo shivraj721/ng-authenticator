@@ -1,0 +1,62 @@
+<div class="auth-container">
+    <!-- Login Form -->
+    <div class="form-section login-form" [class.hidden]="!isLogin">
+      <h2>Login</h2>
+      <p class="auth-subtext">Login to access your Travelwise account</p>
+      <form>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" />
+        </div>
+    
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" />
+        </div>
+    
+        <button type="submit" class="primary-button">Login</button>
+        <p class="toggle-text">
+          Don't have an account? 
+          <a href="javascript:void(0)" (click)="toggleForm()">Create an account</a>
+        </p>
+      </form>
+    </div>
+  
+    <!-- Signup Form -->
+    <div class="form-section signup-form" [class.hidden]="isLogin">
+      <h2>Create Account</h2>
+      <p class="auth-subtext">Let’s get you all st up so you can access your personal account.</p>
+      <form>
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your full name" />
+        </div>
+  
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" />
+        </div>
+    
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" />
+        </div>
+  
+        <div class="input-group">
+          <label>Confirm Password</label>
+          <input type="password" placeholder="Confirm your password" />
+        </div>
+    
+        <button type="submit" class="primary-button">Sign Up</button>
+        <p class="toggle-text">
+          Already have an account? 
+          <a href="javascript:void(0)" (click)="toggleForm()">Login</a>
+        </p>
+      </form>
+    </div>
+  
+    <!-- Image Section -->
+    <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
+      <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
+    </div>
+  </div>
