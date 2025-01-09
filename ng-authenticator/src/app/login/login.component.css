@@ -19,7 +19,7 @@ html, body {
     flex: 1; /* Takes half the width */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: left;
     padding: 80px;
     min-height: 100%; /* Ensure it takes at least the full height */
     box-sizing: border-box; /* Ensure padding doesn't cause overflow */
@@ -31,12 +31,14 @@ html, body {
     font-size: 2rem; /* Adjust the font size */
     color: #333; /* Color */
     margin-bottom: 0px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .login-subtext {
     font-weight: 400; /* Normal weight */
     font-size: 0.875rem; /* Smaller font size */
     color: #555; /* Lighter color for subtext */
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Input container with label and input field */
@@ -50,11 +52,12 @@ html, body {
     top: 1px;
     left: 10px;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 100;
     color: #1C1B1F;
     background-color: #fff;
     padding: 0 5px;
     transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
 }
 
 input {
@@ -99,11 +102,28 @@ form {
     flex-grow: 1; /* Allow form to grow to fill available space */
     overflow: hidden; /* Prevent form from overflowing */
 }
+.remember-me {
+    display: flex;
+     /* Align items vertically */
+    margin-bottom: 20px; /* Space between checkbox and button */
+    justify-content:left; /* Align checkbox and label to the left */
+}
+.remember-me input {
+      margin: 0;
+    margin-right: 5px; /* Small space between checkbox and label */
+}
 
+.remember-me label {
+    font-size: 0.875rem; /* Small font size */
+    color: #555; /* Lighter color for subtext */
+    font-family: 'Poppins', sans-serif;
+    margin: 0; /* Remove default margin from the label */
+  }
 /* Button styling */
 button {
+    width: 84%;
     padding: 12px;
-    background-color: #6200ea; /* Purple color */
+    background-color: #3869EB; /* Purple color */
     color: white;
     border: none;
     border-radius: 4px;
@@ -113,4 +133,23 @@ button {
 
 button:hover {
     background-color: #3700b3; /* Darker purple on hover */
+}
+.signup-text {
+    margin-top: -10px; /* Space between button and sign-up text */
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.signup-text p {
+    font-size: 0.875rem; /* Slightly smaller text */
+    color: #313131; /* Dark grey color for text */
+}
+
+.signup-link {
+    color: #FF8682; /* Pink color for the sign-up link */
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.signup-link:hover {
+    text-decoration: underline; /* Underline on hover for better user experience */
 }
