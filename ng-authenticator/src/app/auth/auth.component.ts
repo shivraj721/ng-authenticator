@@ -1,49 +1,3 @@
-// import { Component } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { trigger, state, style, animate, transition } from '@angular/animations';
-
-// @Component({
-//   selector: 'app-auth',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './auth.component.html',
-//   styleUrls: ['./auth.component.css'],
-//   animations: [
-//     trigger('imageSlide', [
-//       state('login', style({
-//         right: '0',
-//         opacity: 1
-//       })),
-//       state('signup', style({
-//         right: '50%',
-//         opacity: 1
-//       })),
-//       transition('login <=> signup', [
-//         animate('0.5s ease-out')
-//       ])
-//     ])
-//   ]
-// })
-// export class AuthComponent {
-//   constructor(private router: Router) {}
-//   isLogin = true;
-//   currentImage = 'assets/images/login.jpg';
-//   signupImage = 'assets/images/signup.jpg';
-
-//   toggleForm() {
-//     this.isLogin = !this.isLogin;
-//     setTimeout(() => {
-//       this.currentImage = this.isLogin ? 'assets/images/login.jpg' : 'assets/images/signup.jpg';
-//     }, 250);
-//   }
-//   navigateToForgotPassword() {
-//     this.router.navigate(['/forgotpassword']);
-//   }
-// }
-
-
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -82,7 +36,7 @@ export class AuthComponent {
   errorMessage = '';
   loginForm: FormGroup;
   signupForm: FormGroup;
-  phonePattern = "^\\+?[1-9]\\d{1,14}$"; // International phone number format
+  phonePattern = "^\\+?[1-9]\\d{1,14}$"; 
 
   constructor(
     private router: Router,
@@ -90,13 +44,14 @@ export class AuthComponent {
     private fb: FormBuilder
   ) {
     this.loginForm = this.fb.group({
-      phoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       rememberMe: [false]
     });
 
     this.signupForm = this.fb.group({
       fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
@@ -116,8 +71,8 @@ export class AuthComponent {
       this.errorMessage = '';
       
       try {
-        const { phoneNumber, password } = this.loginForm.value;
-        await this.cognitoService.signIn(phoneNumber, password);
+        const { email, password } = this.loginForm.value;
+        await this.cognitoService.signIn(email, password);
         this.router.navigate(['/home']);
       } catch (error: any) {
         this.errorMessage = error.message || 'An error occurred during login';
@@ -133,11 +88,11 @@ export class AuthComponent {
       this.errorMessage = '';
 
       try {
-        const { phoneNumber, password, fullName } = this.signupForm.value;
-        await this.cognitoService.signUp(phoneNumber, password, fullName);
+        const { email,  phoneNumber,password, fullName } = this.signupForm.value;
+        await this.cognitoService.signUp(phoneNumber,email, password, fullName);
         // Navigate to verification page or show verification modal
         this.router.navigate(['/verifycode'], { 
-          queryParams: { phone: phoneNumber }
+          queryParams: { email: fullName }
         });
       } catch (error: any) {
         this.errorMessage = error.message || 'An error occurred during signup';
@@ -154,11 +109,6 @@ export class AuthComponent {
       this.currentImage = this.isLogin ? 'assets/images/login.jpg' : 'assets/images/signup.jpg';
     }, 250);
   }
-
-  navigateToForgotPassword() {
-    this.router.navigate(['/forgotpassword']);
-  }
-
   formatPhoneNumber(event: any) {
     const input = event.target;
     let value = input.value.replace(/\D/g, '');
@@ -166,5 +116,8 @@ export class AuthComponent {
       value = '+' + value;
     }
     input.value = value;
+  }
+  navigateToForgotPassword() {
+    this.router.navigate(['/forgotpassword']);
   }
 }

@@ -24,16 +24,14 @@ export class CognitoService {
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
   }
 
-  public async signUp(phoneNumber: string, password: string, name: string): Promise<any> {
+  public async signUp(phoneNumber: string, email: string, password: string, name: string): Promise<any> {
     try {
-      // Ensure phone number is in correct format (+1234567890)
-      const formattedPhone = this.formatPhoneNumber(phoneNumber);
       const result = await signUp({
-        username: formattedPhone,
+        username: name,
         password,
         options: {
           userAttributes: {
-            phone_number: formattedPhone,
+            email,
             name
           }
         }
@@ -44,23 +42,29 @@ export class CognitoService {
     }
   }
 
-  public async confirmSignUp(phoneNumber: string, code: string): Promise<any> {
+  public async confirmSignUp(email: string, code: string): Promise<any> {
+
+    console.log('confirm signup method called');
     try {
-      const formattedPhone = this.formatPhoneNumber(phoneNumber);
+      console.log('recieved code is:');
+      console.log(code);
+      console.log('recieved email isssssss');
+      console.log(email);
       return await confirmSignUp({
-        username: formattedPhone,
+        username: email,
         confirmationCode: code
       });
+      
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
 
-  public async signIn(phoneNumber: string, password: string): Promise<any> {
+  public async signIn(email: string, password: string): Promise<any> {
     try {
-      const formattedPhone = this.formatPhoneNumber(phoneNumber);
       const result = await signIn({
-        username: formattedPhone,
+        username: email,
         password
       });
       this.authenticationSubject.next(true);
@@ -79,22 +83,20 @@ export class CognitoService {
     }
   }
 
-  public async forgotPassword(phoneNumber: string): Promise<any> {
+  public async forgotPassword(email: string): Promise<any> {
     try {
-      const formattedPhone = this.formatPhoneNumber(phoneNumber);
       return await resetPassword({
-        username: formattedPhone
+        username: email
       });
     } catch (error) {
       throw error;
     }
   }
 
-  public async forgotPasswordSubmit(phoneNumber: string, code: string, newPassword: string): Promise<any> {
+  public async forgotPasswordSubmit(email: string, code: string, newPassword: string): Promise<any> {
     try {
-      const formattedPhone = this.formatPhoneNumber(phoneNumber);
       return await confirmResetPassword({
-        username: formattedPhone,
+        username: email,
         confirmationCode: code,
         newPassword
       });
@@ -115,12 +117,5 @@ export class CognitoService {
 
   public isAuthenticated(): Observable<boolean> {
     return this.authenticationSubject.asObservable();
-  }
-
-  private formatPhoneNumber(phoneNumber: string): string {
-    // Remove any non-digit characters
-    const cleaned = phoneNumber.replace(/\D/g, '');
-    // Add + if not present
-    return cleaned.startsWith('+') ? cleaned : `+${cleaned}`;
   }
 }
