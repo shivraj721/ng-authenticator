@@ -1,5 +1,5 @@
-<div class="auth-container">
-    <!-- Login Form -->
+<!-- <div class="auth-container">
+    Login Form
     <div class="form-section login-form" [class.hidden]="!isLogin">
       <h2>Login</h2>
       <p class="auth-subtext">Login to access your Travelwise account</p>
@@ -28,7 +28,7 @@
       </form>
     </div>
   
-    <!-- Signup Form -->
+    Signup Form
     <div class="form-section signup-form" [class.hidden]="isLogin">
       <h2>Create Account</h2>
       <p class="auth-subtext">Let’s get you all st up so you can access your personal account.</p>
@@ -54,6 +54,127 @@
         </div>
     
         <button type="submit" class="primary-button">Sign Up</button>
+        <p class="toggle-text">
+          Already have an account? 
+          <a href="javascript:void(0)" (click)="toggleForm()">Login</a>
+        </p>
+      </form>
+    </div>
+  
+    Image Section
+    <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
+      <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
+    </div>
+  </div> -->
+
+
+  <div class="auth-container">
+    <!-- Login Form -->
+    <div class="form-section login-form" [class.hidden]="!isLogin">
+      <h2>Login</h2>
+      <p class="auth-subtext">Login to access your Travelwise account</p>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="input-group">
+          <label>Phone Number</label>
+          <input 
+            type="tel" 
+            formControlName="phoneNumber" 
+            placeholder="Enter your phone number (+1234567890)" 
+            (input)="formatPhoneNumber($event)"
+          />
+          <div class="error-message" *ngIf="loginForm.get('phoneNumber')?.touched && loginForm.get('phoneNumber')?.errors?.['required']">
+            Phone number is required
+          </div>
+          <div class="error-message" *ngIf="loginForm.get('phoneNumber')?.touched && loginForm.get('phoneNumber')?.errors?.['pattern']">
+            Please enter a valid phone number (e.g., +1234567890)
+          </div>
+        </div>
+    
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Enter your password" />
+          <div class="error-message" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">
+            Password is required
+          </div>
+          <a href="javascript:void(0)" class="forgot-password" (click)="navigateToForgotPassword()">Forgot Password</a>
+        </div>
+    
+        <div class="remember-me">
+          <input type="checkbox" id="remember-me" formControlName="rememberMe" />
+          <label for="remember-me">Remember me</label>
+        </div>
+    
+        <button type="submit" class="primary-button" [disabled]="loginForm.invalid || loading">
+          {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+  
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+  
+        <p class="toggle-text">
+          Don't have an account? 
+          <a href="javascript:void(0)" (click)="toggleForm()">Create an account</a>
+        </p>
+      </form>
+    </div>
+  
+    <!-- Signup Form -->
+    <div class="form-section signup-form" [class.hidden]="isLogin">
+      <h2>Create Account</h2>
+      <p class="auth-subtext">Let's get you all set up so you can access your personal account.</p>
+      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" formControlName="fullName" placeholder="Enter your full name" />
+          <div class="error-message" *ngIf="signupForm.get('fullName')?.touched && signupForm.get('fullName')?.errors?.['required']">
+            Full name is required
+          </div>
+        </div>
+  
+        <div class="input-group">
+          <label>Phone Number</label>
+          <input 
+            type="tel" 
+            formControlName="phoneNumber" 
+            placeholder="Enter your phone number (+1234567890)" 
+            (input)="formatPhoneNumber($event)"
+          />
+          <div class="error-message" *ngIf="signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['required']">
+            Phone number is required
+          </div>
+          <div class="error-message" *ngIf="signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['pattern']">
+            Please enter a valid phone number (e.g., +1234567890)
+          </div>
+        </div>
+    
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Enter your password" />
+          <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
+            Password is required
+          </div>
+          <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+            Password must be at least 8 characters long
+          </div>
+        </div>
+  
+        <div class="input-group">
+          <label>Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" placeholder="Confirm your password" />
+          <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.errors?.['mismatch']">
+            Passwords do not match
+          </div>
+        </div>
+    
+        <button type="submit" class="primary-button" [disabled]="signupForm.invalid || loading">
+          {{ loading ? 'Creating account...' : 'Sign Up' }}
+        </button>
+  
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+  
         <p class="toggle-text">
           Already have an account? 
           <a href="javascript:void(0)" (click)="toggleForm()">Login</a>

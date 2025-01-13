@@ -12,7 +12,7 @@ export class VerifycodeComponent {
   onSubmit(code: string) {
     if (code.trim()) {
       console.log('code:', code);
-      this.router.navigate(['/setpassword']);
+      this.router.navigate(['/home']);
     } else {
       alert('Please enter a valid email address');
     }
