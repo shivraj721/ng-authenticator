@@ -50,7 +50,7 @@ export class AuthComponent {
     });
 
     this.signupForm = this.fb.group({
-      fullName: ['', Validators.required],
+      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -88,11 +88,11 @@ export class AuthComponent {
       this.errorMessage = '';
 
       try {
-        const { email,  phoneNumber,password, fullName } = this.signupForm.value;
-        await this.cognitoService.signUp(phoneNumber,email, password, fullName);
-        // Navigate to verification page or show verification modal
+        const { email,  phoneNumber,password, userName } = this.signupForm.value;
+        await this.cognitoService.signUp(phoneNumber,email, password, userName);
+   
         this.router.navigate(['/verifycode'], { 
-          queryParams: { email: fullName }
+          queryParams: { userName: userName }
         });
       } catch (error: any) {
         this.errorMessage = error.message || 'An error occurred during signup';

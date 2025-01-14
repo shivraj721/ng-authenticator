@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { CognitoService } from '../cognito/cognito.service';
-
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -19,30 +14,30 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 
 })
 export class VerifycodeComponent implements OnInit {
-  email: string = '';
+  userName: string = '';
   errorMessage: string = '';
   loading: boolean = false;
-  verifyCodeForm: FormGroup; // Declare the FormGroup for the form
+  verifyCodeForm: FormGroup; 
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     
     private cognitoService: CognitoService,
-    private fb: FormBuilder // Inject FormBuilder
+    private fb: FormBuilder 
   ) {
-    // Initialize the form with validation
+  
     this.verifyCodeForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6)]] // Example validation
+      code: ['', [Validators.required, Validators.minLength(6)]] 
     });
   }
 
   ngOnInit(): void {
-    // Retrieve the email from the query parameters
+
     this.route.queryParams.subscribe(params => {
-      this.email = params['email'] || '';
-      if (!this.email) {
-        this.errorMessage = 'Email is missing. Please go back to signup and try again.';
+      this.userName = params['userName'] || '';
+      if (!this.userName) {
+        this.errorMessage = 'username is missing. Please go back to signup and try again.';
       }
     });
   }
@@ -53,19 +48,15 @@ export class VerifycodeComponent implements OnInit {
       return;
     }
 
-    const code = this.verifyCodeForm.get('code')?.value; // Get the code from the form
+    const code = this.verifyCodeForm.get('code')?.value; 
 
-    if (!this.email) {
-      this.errorMessage = 'Email is missing. Please go back to signup and try again.';
-      return;
-    }
-
+ 
     this.loading = true;
     this.errorMessage = '';
     try {
-      // Call the confirmSignUp function from CognitoService
-      await this.cognitoService.confirmSignUp(this.email, code);
-      // Navigate to the home or login page after successful verification
+ 
+      await this.cognitoService.confirmSignUp(this.userName, code);
+   
       this.router.navigate(['/login']);
     } catch (error: any) {
       this.errorMessage = error.message || 'An error occurred during verification.';
@@ -75,6 +66,6 @@ export class VerifycodeComponent implements OnInit {
   }
 
   resendCode(): void {
-    // Implement resend code functionality if needed
+   
   }
 }
