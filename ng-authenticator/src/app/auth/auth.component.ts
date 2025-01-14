@@ -92,7 +92,7 @@ export class AuthComponent {
         await this.cognitoService.signUp(phoneNumber,email, password, fullName);
         // Navigate to verification page or show verification modal
         this.router.navigate(['/verifycode'], { 
-          queryParams: { email: fullName }
+          queryParams: { email: fullName,isSignup:true }
         });
       } catch (error: any) {
         this.errorMessage = error.message || 'An error occurred during signup';

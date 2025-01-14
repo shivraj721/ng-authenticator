@@ -46,10 +46,6 @@ export class CognitoService {
 
     console.log('confirm signup method called');
     try {
-      console.log('recieved code is:');
-      console.log(code);
-      console.log('recieved email isssssss');
-      console.log(email);
       return await confirmSignUp({
         username: email,
         confirmationCode: code
@@ -114,6 +110,7 @@ export class CognitoService {
       throw error;
     }
   }
+
 
   public isAuthenticated(): Observable<boolean> {
     return this.authenticationSubject.asObservable();
