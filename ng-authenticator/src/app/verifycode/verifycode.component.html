@@ -1,0 +1,48 @@
+
+<div class="auth-container">
+  <div class="form-section">
+    <div class="back-link">
+      <a href="javascript:void(0)" routerLink="/login">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="#1C1B1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to login
+      </a>
+    </div>
+
+    <h2>Verify code</h2>
+    <p class="auth-subtext">An authentication code has been sent to your email.</p>
+    
+    <form [formGroup]="verifyCodeForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="code">Verification Code</label>
+        <input 
+          type="text" 
+          formControlName="code" 
+          id="code" 
+          placeholder="Enter verification code"
+        />
+        <div class="error-message" *ngIf="verifyCodeForm.get('code')?.touched && verifyCodeForm.get('code')?.errors?.['required']">
+          Verification code is required
+        </div>
+      </div>
+    
+      <div class="resend-code">
+        <span>Didn't receive a code?</span>
+        <a href="javascript:void(0)" (click)="resendCode()">Resend</a>
+      </div>
+    
+      <button type="submit" class="primary-button" [disabled]="verifyCodeForm.invalid || loading">
+        {{ loading ? 'Verifying code...' : 'Verify Code' }}
+      </button>
+    
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+
+  <div class="image-section">
+    <img src="assets/images/login.jpg" alt="Verify Code" class="auth-image" />
+  </div>
+</div>
