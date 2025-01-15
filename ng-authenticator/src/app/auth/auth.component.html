@@ -1,5 +1,5 @@
   <div class="auth-container">
-    <!-- Login Form -->
+  
     <div class="form-section login-form" [class.hidden]="!isLogin">
       <h2>Login</h2>
       <p class="auth-subtext">Login to access your Travelwise account</p>
@@ -45,16 +45,16 @@
       </form>
     </div>
   
-    <!-- Signup Form -->
+    
     <div class="form-section signup-form" [class.hidden]="isLogin">
       <h2>Create Account</h2>
       <p class="auth-subtext">Let's get you all set up so you can access your personal account.</p>
       <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
         <div class="input-group">
-          <label>Full Name</label>
-          <input type="text" formControlName="fullName" placeholder="Enter your full name" />
-          <div class="error-message" *ngIf="signupForm.get('fullName')?.touched && signupForm.get('fullName')?.errors?.['required']">
-            Full name is required
+          <label>UserName</label>
+          <input type="text" formControlName="userName" placeholder="Enter your full name" />
+          <div class="error-message" *ngIf="signupForm.get('userName')?.touched && signupForm.get('userName')?.errors?.['required']">
+             Username is required
           </div>
         </div>
   
@@ -121,7 +121,7 @@
       </form>
     </div>
   
-    <!-- Image Section -->
+    
     <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
       <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
     </div>

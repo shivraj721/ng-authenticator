@@ -42,12 +42,12 @@ export class CognitoService {
     }
   }
 
-  public async confirmSignUp(email: string, code: string): Promise<any> {
+  public async confirmSignUp(userName: string, code: string): Promise<any> {
 
     console.log('confirm signup method called');
     try {
       return await confirmSignUp({
-        username: email,
+        username: userName,
         confirmationCode: code
       });
       
