@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { CognitoService } from '../cognito/cognito.service';
-
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -29,16 +24,16 @@ export class VerifycodeComponent implements OnInit {
     private route: ActivatedRoute,
     
     private cognitoService: CognitoService,
-    private fb: FormBuilder // Inject FormBuilder
+    private fb: FormBuilder 
   ) {
-    // Initialize the form with validation
+  
     this.verifyCodeForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6)]] // Example validation
+      code: ['', [Validators.required, Validators.minLength(6)]] 
     });
   }
 
   ngOnInit(): void {
-    // Retrieve the email from the query parameters
+
     this.route.queryParams.subscribe(params => {
       this.email = params['email'] || '';
       this.isSignup = params['isSignup'];
@@ -63,6 +58,7 @@ export class VerifycodeComponent implements OnInit {
       return;
     }
 
+ 
     this.loading = true;
     this.errorMessage = '';
     try {
@@ -80,6 +76,7 @@ export class VerifycodeComponent implements OnInit {
         );
       }
       
+
     } catch (error: any) {
       this.errorMessage = error.message || 'An error occurred during verification.';
     } finally {
