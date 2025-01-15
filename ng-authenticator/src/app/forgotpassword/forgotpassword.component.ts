@@ -1,21 +1,29 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-forgotpassword',
-  imports: [],
   templateUrl: './forgotpassword.component.html',
-  styleUrl: './forgotpassword.component.css'
+  styleUrls: ['./forgotpassword.component.css']
 })
-export class ForgotpasswordComponent {
-  constructor(private router: Router) {}
+export class ForgotpasswordComponent implements OnInit {
+  forgotpasswordForm: FormGroup;
 
-  onSubmit(email: string) {
-    if (email.trim()) {
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.forgotpasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.forgotpasswordForm.valid) {
+      const email = this.forgotpasswordForm.get('email')?.value;
       console.log('Email:', email);
-      this.router.navigate(['/verifycode']);
+      // Add your form submission logic here
     } else {
-      alert('Please enter a valid email address');
+      console.log('Form is invalid');
     }
   }
 }
