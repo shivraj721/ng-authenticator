@@ -9,7 +9,7 @@ import { CognitoService } from '../cognito/cognito.service';
   selector: 'app-forgotpassword',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './forgotpassword.component.html',
-  styleUrls: ['./forgotpassword.component.css']
+  styleUrl: './forgotpassword.component.css'
 })
 export class ForgotpasswordComponent {
   forgotPasswordForm: FormGroup;

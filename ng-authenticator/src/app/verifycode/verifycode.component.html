@@ -1,4 +1,4 @@
-
+<!-- verifycode.component.html -->
 <div class="auth-container">
   <div class="form-section">
     <div class="back-link">
@@ -13,6 +13,7 @@
     <h2>Verify code</h2>
     <p class="auth-subtext">An authentication code has been sent to your email.</p>
     
+    <!-- Use ngSubmit for the form submission -->
     <form [formGroup]="verifyCodeForm" (ngSubmit)="onSubmit()">
       <div class="input-group">
         <label for="code">Verification Code</label>

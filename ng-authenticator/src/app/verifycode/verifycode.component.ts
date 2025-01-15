@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { CognitoService } from '../cognito/cognito.service';
+
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -14,7 +19,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 
 })
 export class VerifycodeComponent implements OnInit {
-  userName: string = '';
+  email: string = '';
   errorMessage: string = '';
   loading: boolean = false;
   verifyCodeForm: FormGroup; // Declare the FormGroup for the form
@@ -24,16 +29,16 @@ export class VerifycodeComponent implements OnInit {
     private route: ActivatedRoute,
     
     private cognitoService: CognitoService,
-    private fb: FormBuilder 
+    private fb: FormBuilder // Inject FormBuilder
   ) {
-  
+    // Initialize the form with validation
     this.verifyCodeForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6)]] 
+      code: ['', [Validators.required, Validators.minLength(6)]] // Example validation
     });
   }
 
   ngOnInit(): void {
-
+    // Retrieve the email from the query parameters
     this.route.queryParams.subscribe(params => {
       this.email = params['email'] || '';
       this.isSignup = params['isSignup'];
