@@ -37,7 +37,14 @@
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
-
+    
+      <div class="social-login">
+        <p class="divider">Or continue with</p>
+        <button type="button" class="google-btn" (click)="signInWithGoogle()">
+          <img src="assets/images/google-icon.svg" alt="Google" />
+          Continue with Google
+        </button>
+      </div>
       <p class="toggle-text">
         Don't have an account? 
         <a href="javascript:void(0)" (click)="toggleForm()">Create an account</a>
@@ -113,7 +120,7 @@
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
-
+   
       <p class="toggle-text">
         Already have an account? 
         <a href="javascript:void(0)" (click)="toggleForm()">Login</a>
