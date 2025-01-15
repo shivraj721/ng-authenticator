@@ -50,6 +50,9 @@
   z-index: 0;
 }
 
+.error-message{
+  color: rgb(190, 43, 43);
+}
 .auth-image {
   width: 90%;
   max-width: 400px;
@@ -71,19 +74,12 @@ h2 {
 }
 
 .input-group {
-  /* margin-bottom: 1.5rem;
-  width: 100%; */
   position: relative;
     margin-bottom: 20px;
 }
 
 .input-group label {
-  /* display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-size: 0.9rem; */
   position: absolute;
-    /* top: 1px; */
     left: 10px;
     font-size: 0.75rem;
     font-weight: 100;
@@ -95,12 +91,6 @@ h2 {
 }
 
 input {
-  /* width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s; */
   padding: 12px;
     font-size: 14px;
     border-radius: 4px;

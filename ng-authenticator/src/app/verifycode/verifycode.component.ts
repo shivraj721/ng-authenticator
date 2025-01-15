@@ -17,8 +17,8 @@ export class VerifycodeComponent implements OnInit {
   userName: string = '';
   errorMessage: string = '';
   loading: boolean = false;
-  verifyCodeForm: FormGroup; 
-
+  verifyCodeForm: FormGroup; // Declare the FormGroup for the form
+  isSignup: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -35,29 +35,46 @@ export class VerifycodeComponent implements OnInit {
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(params => {
-      this.userName = params['userName'] || '';
-      if (!this.userName) {
-        this.errorMessage = 'username is missing. Please go back to signup and try again.';
+      this.email = params['email'] || '';
+      this.isSignup = params['isSignup'];
+      console.log('email: ',this.email);
+      if (!this.email) {
+        this.errorMessage = 'Email is missing. Please go back to signup and try again.';
       }
     });
   }
 
   async onSubmit(): Promise<void> {
+    
     if (this.verifyCodeForm.invalid) {
       this.errorMessage = 'Please enter a valid verification code.';
       return;
     }
 
-    const code = this.verifyCodeForm.get('code')?.value; 
+    const code = this.verifyCodeForm.get('code')?.value;
+    console.log('codeee ',code);
+    if (!this.email) {
+      this.errorMessage = 'Email is missing. Please go back to signup and try again.';
+      return;
+    }
 
- 
     this.loading = true;
     this.errorMessage = '';
     try {
- 
-      await this.cognitoService.confirmSignUp(this.userName, code);
-   
-      this.router.navigate(['/login']);
+      // Call the confirmSignUp function from CognitoService
+      if(this.isSignup){
+        console.log('calleddddddddddddddddddddd');
+        await this.cognitoService.confirmSignUp(this.email, code);
+        // Navigate to the home or login page after successful verification
+        this.router.navigate(['/login']);
+      }else{
+        // Navigate to the home or login page after successful verification
+        this.router.navigate(['/setpassword'],{ 
+          queryParams: { email: this.email, code:code}
+        }
+        );
+      }
+      
     } catch (error: any) {
       this.errorMessage = error.message || 'An error occurred during verification.';
     } finally {
@@ -66,6 +83,6 @@ export class VerifycodeComponent implements OnInit {
   }
 
   resendCode(): void {
-   
+    // this.cognitoService.
   }
 }
