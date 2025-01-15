@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Amplify } from 'aws-amplify';
-import { signUp, signIn, signOut, confirmSignUp, resetPassword, confirmResetPassword, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { signUp, signIn, signOut, confirmSignUp, resetPassword, confirmResetPassword, getCurrentUser, fetchUserAttributes,signInWithRedirect} from 'aws-amplify/auth';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -11,12 +11,31 @@ export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
   constructor() {
+    // Amplify.configure({
+    //   Auth: {
+    //     Cognito: {
+    //       userPoolId: environment.cognito.userPoolId,
+    //       userPoolClientId: environment.cognito.clientId,
+    //       signUpVerificationMethod: 'code'
+    //     }
+    //   }
+    // });
     Amplify.configure({
       Auth: {
         Cognito: {
           userPoolId: environment.cognito.userPoolId,
           userPoolClientId: environment.cognito.clientId,
-          signUpVerificationMethod: 'code'
+          signUpVerificationMethod: 'code',
+          loginWith: {
+            oauth: {
+              domain: environment.cognito.domain,
+              scopes: ['email', 'profile', 'openid'],
+              redirectSignIn: [environment.cognito.redirectSignIn],
+              redirectSignOut: [environment.cognito.redirectSignOut],
+              responseType: 'code',
+              providers: ['Google']
+            }
+          }
         }
       }
     });
@@ -59,6 +78,7 @@ export class CognitoService {
 
   public async signIn(email: string, password: string): Promise<any> {
     try {
+      console.log("inside sign in function of cognito file!!!!!");
       const result = await signIn({
         username: email,
         password
@@ -110,7 +130,13 @@ export class CognitoService {
       throw error;
     }
   }
-
+  public async signInWithGoogle(): Promise<any> {
+    try {
+      await signInWithRedirect({ provider: 'Google' });
+    } catch (error) {
+      throw error;
+    }
+  }
 
   public isAuthenticated(): Observable<boolean> {
     return this.authenticationSubject.asObservable();

@@ -81,7 +81,19 @@ export class AuthComponent {
       }
     }
   }
-
+  async signInWithGoogle() {
+    this.loading = true;
+    this.errorMessage = '';
+    
+    try {
+      await this.cognitoService.signInWithGoogle();
+      this.router.navigate(['/home']);
+    } catch (error: any) {
+      this.errorMessage = error.message || 'An error occurred during Google sign-in';
+    } finally {
+      this.loading = false;
+    }
+  }
   async onSignup() {
     if (this.signupForm.valid) {
       this.loading = true;
