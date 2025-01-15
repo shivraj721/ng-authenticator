@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 
 })
 export class VerifycodeComponent implements OnInit {
-  userName: string = '';
+  email: string = '';
   errorMessage: string = '';
   loading: boolean = false;
   verifyCodeForm: FormGroup; // Declare the FormGroup for the form
