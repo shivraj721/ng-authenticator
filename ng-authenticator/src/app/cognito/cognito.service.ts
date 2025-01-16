@@ -3,23 +3,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Amplify } from 'aws-amplify';
 import { signUp, signIn, signOut, confirmSignUp, resetPassword, confirmResetPassword, getCurrentUser, fetchUserAttributes,signInWithRedirect} from 'aws-amplify/auth';
 import { environment } from '../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CognitoService {
-  private authenticationSubject: BehaviorSubject<any>;
+ public authenticationSubject: BehaviorSubject<any>;
 
-  constructor() {
-    // Amplify.configure({
-    //   Auth: {
-    //     Cognito: {
-    //       userPoolId: environment.cognito.userPoolId,
-    //       userPoolClientId: environment.cognito.clientId,
-    //       signUpVerificationMethod: 'code'
-    //     }
-    //   }
-    // });
+  private clientId = '824786634927-rdli0bpl7pnu7cuisvl25r7607if5j3e.apps.googleusercontent.com';
+  constructor(
+    private router: Router
+  ) {
+    
     Amplify.configure({
       Auth: {
         Cognito: {
@@ -32,8 +28,7 @@ export class CognitoService {
               scopes: ['email', 'profile', 'openid'],
               redirectSignIn: [environment.cognito.redirectSignIn],
               redirectSignOut: [environment.cognito.redirectSignOut],
-              responseType: 'code',
-              providers: ['Google']
+              responseType: 'code'
             }
           }
         }
@@ -41,6 +36,7 @@ export class CognitoService {
     });
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
+  
   }
 
   public async signUp(phoneNumber: string, email: string, password: string, name: string): Promise<any> {
@@ -126,13 +122,6 @@ export class CognitoService {
       const currentUser = await getCurrentUser();
       const userAttributes = await fetchUserAttributes();
       return { ...currentUser, ...userAttributes };
-    } catch (error) {
-      throw error;
-    }
-  }
-  public async signInWithGoogle(): Promise<any> {
-    try {
-      await signInWithRedirect({ provider: 'Google' });
     } catch (error) {
       throw error;
     }

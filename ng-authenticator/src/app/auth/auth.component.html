@@ -37,13 +37,18 @@
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
-    
+ 
       <div class="social-login">
         <p class="divider">Or continue with</p>
-        <button type="button" class="google-btn" (click)="signInWithGoogle()">
-          <img src="assets/images/google-icon.svg" alt="Google" />
-          Continue with Google
-        </button>
+        <!-- Google Sign-In Button -->
+        <div id="g_id_onload"
+          data-client_id="YOUR_GOOGLE_CLIENT_ID"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="onSignInCallback"
+          data-auto_prompt="false">
+        </div>
+        <div id="googleSignInButton"></div>
       </div>
       <p class="toggle-text">
         Don't have an account? 

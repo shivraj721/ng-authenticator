@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CognitoService } from '../cognito/cognito.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -43,6 +44,7 @@ export class AuthComponent {
     private cognitoService: CognitoService,
     private fb: FormBuilder
   ) {
+    this.signInWithGoogle();
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -58,6 +60,9 @@ export class AuthComponent {
     }, {
       validator: this.passwordMatchValidator
     });
+  }
+  ngOnInit() {
+    this.signInWithGoogle();
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -81,17 +86,99 @@ export class AuthComponent {
       }
     }
   }
+  // async signInWithGoogle() {
+  //   this.loading = true;
+  //   this.errorMessage = '';
+  
+  //   try {
+  //     await this.cognitoService.signInWithGoogle();
+  //     this.router.navigate(['/home']);
+  //   } catch (error: any) {
+  //     this.errorMessage = error.message || 'An error occurred during Google sign-in';
+  //   } finally {
+  //     this.loading = false;
+  //   }
+  // }
   async signInWithGoogle() {
     this.loading = true;
     this.errorMessage = '';
+  
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
     
+    script.onload = () => {
+      const google = (window as any).google;
+      if (google) {
+        google.accounts.id.initialize({
+          client_id: environment.cognito.googleClientId,
+          auto_select: false,
+          callback: this.handleGoogleCredentialResponse.bind(this)
+        });
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.id = 'g_id_onload';
+        document.body.appendChild(buttonContainer);
+
+        google.accounts.id.renderButton(
+          document.getElementById('googleSignInButton'),
+          { type: 'standard', theme: 'outline', size: 'large', text: 'signin_with', shape: 'circle' }
+        );
+      
+        google.accounts.id.prompt((notification: any) => {
+          if (notification.isNotDisplayed()) {
+            console.log('Prompt not displayed:', notification.getNotDisplayedReason());
+          
+            if (notification.getNotDisplayedReason() === 'browser_not_supported') {
+            
+              this.fallbackToRedirect();
+            }
+          }
+        });
+      }
+    };
+    
+    document.body.appendChild(script);
+    console.log('gis has been successfully loaded..!!!!!!');
+  }
+  private async handleGoogleCredentialResponse(response: any) {
     try {
-      await this.cognitoService.signInWithGoogle();
-      this.router.navigate(['/home']);
-    } catch (error: any) {
-      this.errorMessage = error.message || 'An error occurred during Google sign-in';
-    } finally {
-      this.loading = false;
+      if (response.credential) {
+        
+        const payload = this.decodeJwt(response.credential);
+        console.log('Decoded credential:', payload);
+        
+        
+        this.cognitoService.authenticationSubject.next(true);
+        this.router.navigate(['/home']);
+        return payload;
+      }
+    } catch (error) {
+      console.error('Error handling Google credential:', error);
+      throw error;
+    }
+  }
+  private fallbackToRedirect() {
+
+    console.log('Falling back to redirect flow');
+   
+  }
+  
+  private decodeJwt(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      throw error;
     }
   }
   async onSignup() {

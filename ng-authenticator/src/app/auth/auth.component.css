@@ -13,7 +13,21 @@
   position: relative;
   overflow: hidden;
 }
-
+#googleSignInButton div {
+  width: 50px !important; /* Set width and height to make it circular */
+  height: 50px !important;
+  border-radius: 50% !important; /* Makes the button circular */
+  overflow: hidden; /* Ensures no overflow */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for aesthetics */
+}
+#googleSignInButton img { 
+  width: 24px; /* Adjust the size of the Google icon */
+  height: 24px;
+  object-fit: contain;
+}
 .form-section {
   width: 50%;
   padding: 2rem 4rem;
