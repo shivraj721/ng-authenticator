@@ -1,11 +1,25 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CognitoService } from '../cognito/cognito.service';
 
 @Component({
   selector: 'app-home',
-  imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
 
+  constructor(
+    private router: Router,
+    private cognitoService: CognitoService
+  ) {}
+
+  async onLogout() {
+    try {
+      await this.cognitoService.signOut();
+      this.router.navigate(['/auth']); // Navigate back to the login page
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }
 }

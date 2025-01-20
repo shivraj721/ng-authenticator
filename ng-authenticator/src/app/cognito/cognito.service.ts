@@ -76,13 +76,15 @@ export class CognitoService {
     try {
       console.log("inside sign in function of cognito file!!!!!");
       const result = await signIn({
-        username: email,
-        password
+          username: email,
+          password
       });
       this.authenticationSubject.next(true);
+      await this.router.navigate(['/home']);
       return result;
     } catch (error) {
-      throw error;
+        this.authenticationSubject.next(false);
+        throw error;
     }
   }
 
