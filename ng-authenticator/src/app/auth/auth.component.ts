@@ -6,6 +6,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { CognitoService } from '../cognito/cognito.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
+import { map, take } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -63,6 +65,21 @@ export class AuthComponent {
     });
   }
   ngOnInit() {
+    from(this.cognitoService.isAuthenticated()).pipe(
+      take(1),
+      map(isAuthenticated => {
+        const isLoginPage = this.router.url === '/login';
+  
+        if (isAuthenticated && isLoginPage) {
+          this.router.navigate(['/home']);
+          return false;
+        } else if (!isAuthenticated && !isLoginPage) {
+          this.router.navigate(['/login']);
+          return false;
+        }
+        return true;
+      })
+    ).subscribe();
     this.signInWithGoogle();
   }
 

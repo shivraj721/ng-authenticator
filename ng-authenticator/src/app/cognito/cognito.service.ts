@@ -129,7 +129,12 @@ export class CognitoService {
     }
   }
 
-  public isAuthenticated(): Observable<boolean> {
-    return this.authenticationSubject.asObservable();
+  public async isAuthenticated(): Promise<boolean> {
+    try {
+      await getCurrentUser();
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

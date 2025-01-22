@@ -17,7 +17,7 @@ export class HomeComponent {
   async onLogout() {
     try {
       await this.cognitoService.signOut();
-      this.router.navigate(['/auth']); // Navigate back to the login page
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error during logout:', error);
     }
