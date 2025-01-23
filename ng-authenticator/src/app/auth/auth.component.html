@@ -1,0 +1,180 @@
+<div class="auth-container">
+  
+  <div class="form-section login-form" [class.hidden]="!isLogin">
+    <h2>Login</h2>
+    <p class="auth-subtext">Login to access your account</p>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="input-group">
+        <label>Email</label>
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="Enter your email address"
+        />
+        <div class="error-message" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']">
+          email is required
+        </div>
+       </div>
+  
+       <div class="input-group">
+        <label>Password</label>
+        <div class="password-wrapper">
+          <input 
+            [type]="loginPasswordVisible ? 'text' : 'password'" 
+            formControlName="password" 
+            placeholder="Enter your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleLoginPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ loginPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">
+          Password is required
+        </div>
+        <a href="javascript:void(0)" class="forgot-password" (click)="navigateToForgotPassword()">Forgot Password</a>
+      </div>
+  
+  
+      <div class="remember-me">
+        <input type="checkbox" id="remember-me" formControlName="rememberMe" />
+        <label for="remember-me">Remember me</label>
+      </div>
+  
+      <button type="submit" class="primary-button" [disabled]="loginForm.invalid || loading">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+ 
+      <div class="social-login">
+        <p class="divider">Or continue with</p>
+        <!-- Google Sign-In Button -->
+        <div id="g_id_onload"
+          data-client_id="YOUR_GOOGLE_CLIENT_ID"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="onSignInCallback"
+          data-auto_prompt="false">
+        </div>
+        <div id="googleSignInButton"></div>
+      </div>
+      <p class="toggle-text">
+        Don't have an account? 
+        <a href="javascript:void(0)" (click)="toggleForm()">Create an account</a>
+      </p>
+    </form>
+  </div>
+
+  
+  <div class="form-section signup-form" [class.hidden]="isLogin">
+    <h2>Create Account</h2>
+    <p class="auth-subtext">Let's get you all set up so you can access your personal account.</p>
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+      <div class="input-group">
+        <label>UserName</label>
+        <input type="text" formControlName="userName" placeholder="Enter your full name" />
+        <div class="error-message" *ngIf="signupForm.get('userName')?.touched && signupForm.get('userName')?.errors?.['required']">
+           Username is required
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="Enter your email address"
+        />
+        <div class="error-message" *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['required']">
+          Email is required
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['email']">
+          Please enter a valid email address
+        </div>
+       </div>
+      <div class="input-group">
+        <label>Phone Number</label>
+        <input 
+          type="tel" 
+          formControlName="phoneNumber" 
+          placeholder="Enter your phone number (+1234567890)" 
+          (input)="formatPhoneNumber($event)"
+        />
+        <div class="error-message" *ngIf="loginForm.get('phoneNumber')?.touched && loginForm.get('phoneNumber')?.errors?.['required']">
+          Phone number is required
+        </div>
+        <div class="error-message" *ngIf="loginForm.get('phoneNumber')?.touched && loginForm.get('phoneNumber')?.errors?.['pattern']">
+          Please enter a valid phone number (e.g., +1234567890)
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="password-wrapper">
+          <input 
+            [type]="signupPasswordVisible ? 'text' : 'password'" 
+            formControlName="password" 
+            placeholder="Enter your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleSignupPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ signupPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
+          Password is required
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+          Password must be at least 8 characters long
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <div class="password-wrapper">
+          <input 
+            [type]="confirmPasswordVisible ? 'text' : 'password'" 
+            formControlName="confirmPassword" 
+            placeholder="Confirm your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleConfirmPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ confirmPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.errors?.['mismatch']">
+          Passwords do not match
+        </div>
+      </div>
+  
+      <button type="submit" class="primary-button" [disabled]="signupForm.invalid || loading">
+        {{ loading ? 'Creating account...' : 'Sign Up' }}
+      </button>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+   
+      <p class="toggle-text">
+        Already have an account? 
+        <a href="javascript:void(0)" (click)="toggleForm()">Login</a>
+      </p>
+    </form>
+  </div>
+
+  
+  <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
+    <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
+  </div>
+</div>
