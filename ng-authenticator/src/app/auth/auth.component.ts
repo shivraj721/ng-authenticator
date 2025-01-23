@@ -40,6 +40,9 @@ export class AuthComponent {
   loginForm: FormGroup;
   signupForm: FormGroup;
   phonePattern = "^\\+?[1-9]\\d{1,14}$"; 
+  loginPasswordVisible = false;
+  signupPasswordVisible = false;
+  confirmPasswordVisible = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -87,7 +90,17 @@ export class AuthComponent {
     return g.get('password')?.value === g.get('confirmPassword')?.value
       ? null : {'mismatch': true};
   }
+  toggleLoginPasswordVisibility() {
+    this.loginPasswordVisible = !this.loginPasswordVisible;
+  }
 
+  toggleSignupPasswordVisibility() {
+    this.signupPasswordVisible = !this.signupPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
   async onLogin() {
     if (this.loginForm.valid) {
       this.loading = true;

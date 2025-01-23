@@ -16,14 +16,28 @@
         </div>
        </div>
   
-      <div class="input-group">
+       <div class="input-group">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <div class="password-wrapper">
+          <input 
+            [type]="loginPasswordVisible ? 'text' : 'password'" 
+            formControlName="password" 
+            placeholder="Enter your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleLoginPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ loginPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
         <div class="error-message" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">
           Password is required
         </div>
         <a href="javascript:void(0)" class="forgot-password" (click)="navigateToForgotPassword()">Forgot Password</a>
       </div>
+  
   
       <div class="remember-me">
         <input type="checkbox" id="remember-me" formControlName="rememberMe" />
@@ -101,7 +115,20 @@
       </div>
       <div class="input-group">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <div class="password-wrapper">
+          <input 
+            [type]="signupPasswordVisible ? 'text' : 'password'" 
+            formControlName="password" 
+            placeholder="Enter your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleSignupPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ signupPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
         <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
           Password is required
         </div>
@@ -112,14 +139,27 @@
 
       <div class="input-group">
         <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" placeholder="Confirm your password" />
+        <div class="password-wrapper">
+          <input 
+            [type]="confirmPasswordVisible ? 'text' : 'password'" 
+            formControlName="confirmPassword" 
+            placeholder="Confirm your password" 
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="toggleConfirmPasswordVisibility()"
+          >
+            <i class="eye-icon">{{ confirmPasswordVisible ? '👁️' : '👁️‍🗨️' }}</i>
+          </button>
+        </div>
         <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.errors?.['mismatch']">
           Passwords do not match
         </div>
       </div>
   
       <button type="submit" class="primary-button" [disabled]="signupForm.invalid || loading">
-        {{ loading ? 'Creating account...' : 'Sign Up' }}
+        {{ loading ? 'Creating account....' : 'Sign Up' }}
       </button>
 
       <div class="error-message" *ngIf="errorMessage">
@@ -133,7 +173,7 @@
     </form>
   </div>
 
-  
+   
   <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
     <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
   </div>
