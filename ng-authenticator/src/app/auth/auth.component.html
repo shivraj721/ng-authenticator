@@ -16,7 +16,7 @@
         </div>
        </div>
   
-      <div class="input-group">
+       <div class="input-group">
         <label>Password</label>
         <div class="password-input-container">
           <input [type]="showLoginPassword ? 'text' : 'password'" 
@@ -141,7 +141,7 @@
       </div>
   
       <button type="submit" class="primary-button" [disabled]="signupForm.invalid || loading">
-        {{ loading ? 'Creating account...' : 'Sign Up' }}
+        {{ loading ? 'Creating account....' : 'Sign Up' }}
       </button>
 
       <div class="error-message" *ngIf="errorMessage">
@@ -155,7 +155,7 @@
     </form>
   </div>
 
-  
+   
   <div class="image-section" [@imageSlide]="isLogin ? 'login' : 'signup'">
     <img [src]="currentImage" [alt]="isLogin ? 'Login' : 'Signup'" class="auth-image" />
   </div>
