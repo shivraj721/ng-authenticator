@@ -74,7 +74,6 @@ export class CognitoService {
 
   public async signIn(email: string, password: string): Promise<any> {
     try {
-      console.log("inside sign in function of cognito file!!!!!");
       const result = await signIn({
           username: email,
           password

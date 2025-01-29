@@ -8,11 +8,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { environment } from '../environments/environment';
 import { map, take } from 'rxjs/operators';
 import { from } from 'rxjs';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FaIconComponent],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
   animations: [
@@ -40,6 +42,11 @@ export class AuthComponent {
   loginForm: FormGroup;
   signupForm: FormGroup;
   phonePattern = "^\\+?[1-9]\\d{1,14}$"; 
+  showLoginPassword = false;
+  showSignupPassword = false;
+  showConfirmPassword = false;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -235,5 +242,18 @@ export class AuthComponent {
   }
   navigateToForgotPassword() {
     this.router.navigate(['/forgotpassword']);
+  }
+  togglePasswordVisibility(field: 'login' | 'signup' | 'confirm') {
+    switch(field) {
+      case 'login':
+        this.showLoginPassword = !this.showLoginPassword;
+        break;
+      case 'signup':
+        this.showSignupPassword = !this.showSignupPassword;
+        break;
+      case 'confirm':
+        this.showConfirmPassword = !this.showConfirmPassword;
+        break;
+    }
   }
 }

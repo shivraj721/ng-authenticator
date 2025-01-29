@@ -18,16 +18,20 @@
   
       <div class="input-group">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <div class="password-input-container">
+          <input [type]="showLoginPassword ? 'text' : 'password'" 
+                 formControlName="password" 
+                 placeholder="Enter your password" />
+          <fa-icon 
+            [icon]="showLoginPassword ? faEyeSlash : faEye"
+            (click)="togglePasswordVisibility('login')"
+            class="password-toggle-icon">
+          </fa-icon>
+        </div>
         <div class="error-message" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">
           Password is required
         </div>
         <a href="javascript:void(0)" class="forgot-password" (click)="navigateToForgotPassword()">Forgot Password</a>
-      </div>
-  
-      <div class="remember-me">
-        <input type="checkbox" id="remember-me" formControlName="rememberMe" />
-        <label for="remember-me">Remember me</label>
       </div>
   
       <button type="submit" class="primary-button" [disabled]="loginForm.invalid || loading">
@@ -101,7 +105,16 @@
       </div>
       <div class="input-group">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <div class="password-input-container">
+          <input [type]="showSignupPassword ? 'text' : 'password'" 
+                 formControlName="password" 
+                 placeholder="Enter your password" />
+          <fa-icon 
+            [icon]="showSignupPassword ? faEyeSlash : faEye"
+            (click)="togglePasswordVisibility('signup')"
+            class="password-toggle-icon">
+          </fa-icon>
+        </div>
         <div class="error-message" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
           Password is required
         </div>
@@ -112,7 +125,16 @@
 
       <div class="input-group">
         <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" placeholder="Confirm your password" />
+        <div class="password-input-container">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" 
+                 formControlName="confirmPassword" 
+                 placeholder="Confirm your password" />
+          <fa-icon 
+            [icon]="showConfirmPassword ? faEyeSlash : faEye"
+            (click)="togglePasswordVisibility('confirm')"
+            class="password-toggle-icon">
+          </fa-icon>
+        </div>
         <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.errors?.['mismatch']">
           Passwords do not match
         </div>

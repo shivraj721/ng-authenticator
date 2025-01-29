@@ -14,21 +14,18 @@
   overflow: hidden;
 }
 #googleSignInButton div {
-  width: 50% !important; /* Set width and height to make it circular */
+  width: 50% !important;
   height: 50px !important;
-  border-radius: 50% !important; /* Makes the button circular */
-  overflow: hidden; /* Ensures no overflow */
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for aesthetics */
+  border-radius: 50% !important;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .social-login{
   width: 82%;
   padding: 0.75rem;
 }
 #googleSignInButton img { 
-  width: 24px; /* Adjust the size of the Google icon */
+  width: 24px;
   height: 24px;
   object-fit: contain;
 }
@@ -98,14 +95,15 @@ h2 {
 
 .input-group label {
   position: absolute;
-    left: 10px;
-    font-size: 0.75rem;
-    font-weight: 100;
-    color: #1C1B1F;
-    background-color: #fff;
-    padding: 0 5px;
-    transition: 0.2s;
-    font-family: 'Poppins', sans-serif;
+  left: 10px;
+  top: -8px;
+  font-size: 0.75rem;
+  font-weight: 100;
+  color: #1C1B1F;
+  background-color: #fff;
+  padding: 0 5px;
+  transition: 0.2s;
+  z-index: 1;
 }
 
 input {
@@ -133,7 +131,7 @@ input:focus {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .primary-button:hover {
@@ -196,27 +194,7 @@ input:focus {
   font-size: 14px;
   font-weight: 400;
 }
-.remember-me {
-  width: 80%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
 
-.remember-me input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-  padding: 0;
-}
-
-.remember-me label {
-  position: static;
-  font-size: 14px;
-  color: #1C1B1F;
-  padding: 0;
-  background: none;
-}
 .forgot-password:hover {
   text-decoration: underline;
 }
@@ -228,4 +206,29 @@ input:focus {
   .form-section {
     padding: 1.5rem;
   }
+}
+
+.password-input-container {
+  position: relative;
+  width: 80%;
+}
+
+.password-input-container input {
+  width: 100%;
+  padding-right: 35px;
+  margin-top: 5px;
+}
+
+.password-input-container fa-icon {
+  position: absolute;
+  right: 10px;
+  top: 60%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  z-index: 2;
+}
+
+.password-input-container fa-icon:hover {
+  color: #333;
 }
